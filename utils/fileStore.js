@@ -7,7 +7,7 @@ async function readTasks() {
   try {
     return await fs.readJson(tasksFilePath);
   } catch (error) {
-    if (error.code !== 'ENOENT') { // If the error is not "file not found", rethrow it
+    if (error.code !== 'ENOENT') { // Hvis fejlen ikke er "filen findes ikke", så send den videre
       throw error;
     }
 
