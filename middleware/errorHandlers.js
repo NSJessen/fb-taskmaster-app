@@ -7,7 +7,7 @@ function isApiRequest(req) {
 // Fanger alle ruter, som ingen router har svaret på
 function notFound(req, res, next) {
   if (isApiRequest(req)) {
-    return res.status(404).json({ error: 'Not found' });
+    return res.status(404).json({ error: 'Ikke fundet' });
   }
 
   next(createError(404));
@@ -19,7 +19,7 @@ function errorHandler(err, req, res, next) {
 
   if (isApiRequest(req)) {
     // Ved serverfejl (500) vises den interne fejlbesked ikke for klienten
-    const message = status < 500 ? err.message : 'Internal server error';
+    const message = status < 500 ? err.message : 'Der skete en fejl på serveren';
     return res.status(status).json({ error: message });
   }
 
