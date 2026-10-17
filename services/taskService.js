@@ -24,7 +24,7 @@ async function deleteTask(id) {
   const tasks = await readTasks();
   const remainingTasks = tasks.filter((task) => task.id !== id);
 
-  if (remainingTasks.length === tasks.length) { // No task had that id
+  if (remainingTasks.length === tasks.length) { // Ingen opgave havde det id
     return false;
   }
 
