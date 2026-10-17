@@ -5,23 +5,29 @@ async function getAllTasks() {
   return await readTasks();
 }
 
+function createValidationError(message) {
+  const error = new Error(message);
+  error.name = 'ValidationError';
+  return error;
+}
+
 function validateTaskText(text) {
   if (text === undefined || text === null) {
-    throw new Error('Task-tekst mangler.');
+    throw createValidationError('Task-tekst mangler.');
   }
 
   if (typeof text !== 'string') {
-    throw new Error('Task-tekst skal være en streng.');
+    throw createValidationError('Task-tekst skal være en streng.');
   }
 
   const trimmedText = text.trim();
 
   if (trimmedText.length === 0) {
-    throw new Error('Task-tekst må ikke være tom.');
+    throw createValidationError('Task-tekst må ikke være tom.');
   }
 
   if (trimmedText.length > 200) {
-    throw new Error('Task-tekst må højst være 200 tegn.');
+    throw createValidationError('Task-tekst må højst være 200 tegn.');
   }
 
   return trimmedText;
