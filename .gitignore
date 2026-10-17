@@ -11,3 +11,4 @@
 /node_modules/http-errors/
 /node_modules/morgan/
 /node_modules/pug/
+.env
