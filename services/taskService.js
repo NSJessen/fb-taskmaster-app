@@ -8,12 +8,14 @@ async function getAllTasks() {
 function createValidationError(message) {
   const error = new Error(message);
   error.name = 'ValidationError';
+  error.status = 400;
   return error;
 }
 
 function createQueryError(message) {
   const error = new Error(message);
   error.name = 'QueryError';
+  error.status = 404;
   return error;
 }
 

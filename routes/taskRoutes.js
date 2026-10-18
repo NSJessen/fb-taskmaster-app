@@ -16,9 +16,6 @@ router.post('/', async (req, res, next) => {
         const task = await createTask(req.body.text);
         res.status(201).json(task);
     } catch (error) {
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({error: error.message});
-        }
         next(error);
     }
 });
@@ -29,9 +26,6 @@ router.delete('/:id', async (req, res, next) => {
         await deleteTask(req.params.id);
         res.status(204).end();
     } catch (error) {
-        if (error.name === 'QueryError') {
-            return res.status(404).json({error: error.message});
-        }
         next(error);
     }
 });

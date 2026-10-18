@@ -17,6 +17,8 @@ function notFound(req, res, next) {
 function errorHandler(err, req, res, next) {
   const status = err.status || 500;
 
+  console.error(err);
+
   if (isApiRequest(req)) {
     // Ved serverfejl (500) vises den interne fejlbesked ikke for klienten
     const message = status < 500 ? err.message : 'Der skete en fejl på serveren';
