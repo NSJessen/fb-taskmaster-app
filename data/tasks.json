@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "id": "1f3f25b9-52eb-4302-8ffd-1c274325e6c3",
+    "text": "This is a test task hehe",
+    "status": "todo",
+    "createdAt": "2026-10-18T13:01:22.817Z"
+  }
+]
