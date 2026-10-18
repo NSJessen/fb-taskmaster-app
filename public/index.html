@@ -7,6 +7,20 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
-  <h1>Taskmaster</h1>
+  <main>
+    <h1>Taskmaster</h1>
+
+    <form id="task-form">
+      <label for="task-input">Ny opgave</label>
+      <div class="row">
+        <input type="text" id="task-input" name="text" autocomplete="off" required>
+        <button type="submit">Tilføj</button>
+      </div>
+    </form>
+
+    <ul id="task-list"></ul>
+  </main>
+
+  <script type="module" src="/javascripts/app.js"></script>
 </body>
 </html>
