@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {createTask, getAllTasks} = require('../services/taskService');
+const {createTask, deleteTask, getAllTasks} = require('../services/taskService');
 
 router.get('/', async (req, res, next) => {
     try {
@@ -9,7 +9,7 @@ router.get('/', async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-})
+});
 
 router.post('/', async (req, res, next) => {
     try {
@@ -23,4 +23,16 @@ router.post('/', async (req, res, next) => {
     }
 });
 
+
+router.delete('/:id', async (req, res, next) => {
+    try {
+        await deleteTask(req.params.id);
+        res.status(204).end();
+    } catch (error) {
+        if (error.name === 'QueryError') {
+            return res.status(404).json({error: error.message});
+        }
+        next(error);
+    }
+});
 module.exports = router;
