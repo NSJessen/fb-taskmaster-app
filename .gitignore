@@ -14,3 +14,4 @@
 .env
 /.postman/
 /postman/
+.claude/launch.json
