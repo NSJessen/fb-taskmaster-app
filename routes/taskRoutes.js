@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {createTask} = require('../services/taskService');
+const {createTask, deleteTask} = require('../services/taskService');
 
 // POST /api/tasks – opretter en ny opgave
 router.post('/', async (req, res, next) => {
@@ -15,4 +15,16 @@ router.post('/', async (req, res, next) => {
     }
 });
 
+
+router.delete('/:id', async (req, res, next) => {
+    try {
+        await deleteTask(req.params.id);
+        res.status(204).end();
+    } catch (error) {
+        if (error.name === 'QueryError') {
+            return res.status(404).json({error: error.message});
+        }
+        next(error);
+    }
+});
 module.exports = router;

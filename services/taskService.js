@@ -11,6 +11,12 @@ function createValidationError(message) {
   return error;
 }
 
+function createQueryError(message) {
+  const error = new Error(message);
+  error.name = 'QueryError';
+  return error;
+}
+
 function validateTaskText(text) {
   if (text === undefined || text === null) {
     throw createValidationError('Task-tekst mangler.');
@@ -54,7 +60,7 @@ async function deleteTask(id) {
   const remainingTasks = tasks.filter((task) => task.id !== id);
 
   if (remainingTasks.length === tasks.length) { // Ingen opgave havde det id
-    return false;
+    throw createQueryError('Ingen opgave fundet med det angivne id.');
   }
 
   await writeTasks(remainingTasks);
