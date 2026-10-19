@@ -2,7 +2,13 @@ const BASE_URL = '/api/tasks';
 
 // Tjekker res.ok og kaster en fejl med serverens besked
 async function request(url, options) {
-    const res = await fetch(url, options);
+    let res;
+    try {
+        res = await fetch(url, options);
+    } catch {
+        // fetch fejler kun, når serveren ikke kan nås (fx hvis den er stoppet)
+        throw new Error('Kunne ikke kontakte serveren');
+    }
 
     if (!res.ok) {
         let message = `Anmodningen fejlede (${res.status})`;

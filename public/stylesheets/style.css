@@ -86,3 +86,13 @@ li {
 #task-list .delete:focus-visible {
   background: rgba(255, 255, 255, 0.15);
 }
+
+.error {
+  margin: 16px 0 0;
+  padding: 10px;
+  color: #8b0000;
+  background: #ffe5e5;
+  border: 1px solid #8b0000;
+  border-radius: 4px;
+  font-weight: bold;
+}
