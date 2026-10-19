@@ -3,6 +3,7 @@ import {createTask, getTasks, deleteTask} from './api.js';
 const taskList = document.getElementById('task-list');
 const taskForm = document.getElementById('task-form');
 const taskInput = document.getElementById('task-input');
+const errorMessage = document.getElementById('error-message');
 
 // Tegner hele listen forfra – kan kaldes igen efter ændringer
 export function renderTasks(tasks) {
@@ -34,15 +35,26 @@ export function renderTasks(tasks) {
     }
 }
 
+// Viser fejlen på siden og logger den i konsollen
+// action fortæller brugeren, hvad der ikke lykkedes, fx "Opgaven blev ikke gemt"
+function showError(action, err) {
+    console.error(err);
+    errorMessage.textContent = `${action}: ${err.message}`;
+    errorMessage.hidden = false;
+}
+
+// Skjuler fejlbeskeden igen efter en vellykket handling
+function clearError() {
+    errorMessage.textContent = '';
+    errorMessage.hidden = true;
+}
+
 async function loadTasks() {
     try {
         renderTasks(await getTasks());
+        clearError();
     } catch (err) {
-        taskList.replaceChildren();
-        const error = document.createElement('li');
-        error.className = 'error';
-        error.textContent = err.message;
-        taskList.append(error);
+        showError('Opgaverne kunne ikke hentes', err);
     }
 }
 
@@ -59,7 +71,7 @@ async function handleSubmit(event) {
         taskInput.value = '';
         taskInput.focus();
     } catch (err) {
-        console.error(err);
+        showError('Opgaven blev ikke gemt', err);
     }
 }
 
@@ -75,7 +87,7 @@ async function handleDelete(event) {
         await deleteTask(id);
         await loadTasks();
     } catch (err) {
-        console.error(err);
+        showError('Opgaven blev ikke slettet', err);
     }
 }
 
