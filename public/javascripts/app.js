@@ -6,7 +6,7 @@ const taskInput = document.getElementById('task-input');
 const errorMessage = document.getElementById('error-message');
 
 // Tegner hele listen forfra – kan kaldes igen efter ændringer
-export function renderTasks(tasks) {
+function renderTasks(tasks) {
     taskList.replaceChildren();
 
     if (tasks.length === 0) {
@@ -76,7 +76,6 @@ async function handleSubmit(event) {
 }
 
 async function handleDelete(event) {
-
     const button = event.target.closest('.delete');
     if (!button) return;
 
