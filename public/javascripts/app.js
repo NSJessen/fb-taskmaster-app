@@ -1,6 +1,8 @@
-import {getTasks} from './api.js';
+import {createTask, getTasks} from './api.js';
 
 const taskList = document.getElementById('task-list');
+const taskForm = document.getElementById('task-form');
+const taskInput = document.getElementById('task-input');
 
 // Tegner hele listen forfra – kan kaldes igen efter ændringer
 export function renderTasks(tasks) {
@@ -33,5 +35,24 @@ async function loadTasks() {
         taskList.append(error);
     }
 }
+
+async function handleSubmit(event) {
+    event.preventDefault();
+
+    const text = taskInput.value.trim();
+    if (!text) return; // Ignorer tomme indtastninger
+
+    // Opretter opgaven via API'et og genindlæser listen
+    try {
+        await createTask(text);
+        await loadTasks();
+        taskInput.value = '';
+        taskInput.focus();
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+taskForm.addEventListener('submit', handleSubmit);
 
 loadTasks();
