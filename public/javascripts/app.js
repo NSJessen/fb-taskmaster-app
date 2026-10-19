@@ -36,9 +36,10 @@ export function renderTasks(tasks) {
 }
 
 // Viser fejlen på siden og logger den i konsollen
-function showError(err) {
+// action fortæller brugeren, hvad der ikke lykkedes, fx "Opgaven blev ikke gemt"
+function showError(action, err) {
     console.error(err);
-    errorMessage.textContent = err.message;
+    errorMessage.textContent = `${action}: ${err.message}`;
     errorMessage.hidden = false;
 }
 
@@ -53,7 +54,7 @@ async function loadTasks() {
         renderTasks(await getTasks());
         clearError();
     } catch (err) {
-        showError(err);
+        showError('Opgaverne kunne ikke hentes', err);
     }
 }
 
@@ -70,7 +71,7 @@ async function handleSubmit(event) {
         taskInput.value = '';
         taskInput.focus();
     } catch (err) {
-        showError(err);
+        showError('Opgaven blev ikke gemt', err);
     }
 }
 
@@ -86,7 +87,7 @@ async function handleDelete(event) {
         await deleteTask(id);
         await loadTasks();
     } catch (err) {
-        showError(err);
+        showError('Opgaven blev ikke slettet', err);
     }
 }
 
