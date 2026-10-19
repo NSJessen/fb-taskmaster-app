@@ -64,7 +64,6 @@ async function handleSubmit(event) {
 }
 
 async function handleDelete(event) {
-    event.preventDefault();
 
     const button = event.target.closest('.delete');
     if (!button) return;
