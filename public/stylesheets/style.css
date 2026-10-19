@@ -67,3 +67,22 @@ li {
   border-radius: 4px;
   overflow-wrap: anywhere;
 }
+
+#task-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+#task-list .delete {
+  padding: 4px 8px;
+  font-size: 14px;
+  line-height: 1;
+  background: transparent;
+}
+
+#task-list .delete:hover,
+#task-list .delete:focus-visible {
+  background: rgba(255, 255, 255, 0.15);
+}

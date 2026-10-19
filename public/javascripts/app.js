@@ -1,4 +1,4 @@
-import {createTask, getTasks} from './api.js';
+import {createTask, getTasks, deleteTask} from './api.js';
 
 const taskList = document.getElementById('task-list');
 const taskForm = document.getElementById('task-form');
@@ -19,7 +19,17 @@ export function renderTasks(tasks) {
     for (const task of tasks) {
         const item = document.createElement('li');
         item.dataset.id = task.id;
-        item.textContent = task.text;
+
+        const label = document.createElement('span');
+        label.textContent = task.text;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.className = 'delete';
+        deleteButton.textContent = '🗑️';
+        deleteButton.setAttribute('aria-label', 'Slet opgave');
+
+        item.append(label, deleteButton);
         taskList.append(item);
     }
 }
@@ -53,6 +63,23 @@ async function handleSubmit(event) {
     }
 }
 
+async function handleDelete(event) {
+
+    const button = event.target.closest('.delete');
+    if (!button) return;
+
+    const id = button.closest('li').dataset.id;
+
+    // Sletter opgaven via API'et og genindlæser listen
+    try {
+        await deleteTask(id);
+        await loadTasks();
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+taskList.addEventListener('click', handleDelete);
 taskForm.addEventListener('submit', handleSubmit);
 
 loadTasks();
