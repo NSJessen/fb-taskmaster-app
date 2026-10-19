@@ -1,5 +1,3 @@
-const createError = require('http-errors');
-
 function isApiRequest(req) {
   return req.originalUrl.startsWith('/api');
 }
@@ -10,31 +8,28 @@ const statusByErrorName = {
 };
 
 // Fanger alle ruter, som ingen router har svaret på
-function notFound(req, res, next) {
+function notFound(req, res) {
   if (isApiRequest(req)) {
     return res.status(404).json({ error: 'Ikke fundet' });
   }
 
-  next(createError(404));
+  res.status(404).type('text').send('Siden blev ikke fundet');
 }
 
-// Fejl på /api svarer med JSON { error }, andre fejl viser HTML-siden views/error.pug
+// next skal blive stående – Express kræver fire parametre i fejl-middleware
 function errorHandler(err, req, res, next) {
   const status = err.status || statusByErrorName[err.name] || 500;
 
   console.error(err);
 
+  // Ved serverfejl (500) vises den interne fejlbesked ikke for klienten
+  const message = status < 500 ? err.message : 'Der skete en fejl på serveren';
+
   if (isApiRequest(req)) {
-    // Ved serverfejl (500) vises den interne fejlbesked ikke for klienten
-    const message = status < 500 ? err.message : 'Der skete en fejl på serveren';
     return res.status(status).json({ error: message });
   }
 
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  res.status(status);
-  res.render('error');
+  res.status(status).type('text').send(message);
 }
 
 module.exports = { notFound, errorHandler };
